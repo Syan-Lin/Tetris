@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include "block.h"
 
 #define RED "\x1b[0;31m"
 #define GREEN "\x1b[1;32m"
@@ -16,3 +18,14 @@ void check_equal(int line, std::string str1, std::string str2, value val1, value
 }
 
 #define CHECK_EQUAL(val1, val2) check_equal(__LINE__, #val1, #val2, val1, val2)
+
+class Test {
+public:
+    ~Test();
+    void table_test();
+    void block_test();
+
+private:
+    void print_map(const std::vector<std::vector<int>>& map);
+    void print_block(const block::BlockArr& arr);
+};

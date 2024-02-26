@@ -7,7 +7,7 @@ CFLAG := -g
 
 # 自动获取目录下的源文件和编译目标文件
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD)/%.o, $(SRCS))
+OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 INCLUDE := -I$(INC_DIR) -I$(TEST_DIR)
 
 make_build_dir:
@@ -25,18 +25,21 @@ $(KEYBOARD): make_build_dir $(BUILD_DIR)/$(KEYBOARD).o
 	$(BUILD_DIR)/$(KEYBOARD); \
 	echo "Build $(KEYBOARD) done." \
 
-# 构建 block
-BLOCK = block
-$(BLOCK): make_build_dir $(BUILD_DIR)/$(BLOCK).o
-	@echo "Building $(BLOCK)..."; \
+# 构建测试
+TEST = test
+$(TEST): make_build_dir $(BUILD_DIR)/$(TEST).o $(OBJS)
+	@echo "Building $(TEST)..."; \
 	g++ $(CFLAG) $(INCLUDE) \
-	$(BUILD_DIR)/$(BLOCK).o $(TEST_DIR)/$(BLOCK).cpp -o \
-	$(BUILD_DIR)/$(BLOCK); \
-	echo "Build $(BLOCK) done." \
+	$(OBJS) $(BUILD_DIR)/$(TEST).o $(TEST).cpp -o \
+	$(BUILD_DIR)/$(TEST); \
+	echo "Build $(TEST) done." \
+
+$(BUILD_DIR)/$(TEST).o: $(TEST_DIR)/$(TEST).cpp
+	g++ $(CFLAG) $(INCLUDE) -c $< -o $@
 
 # 编译规则
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@g++ $(CFLAG) $(INCLUDE) -c $< -o $@
+	g++ $(CFLAG) $(INCLUDE) -c $< -o $@
 
 # 清理规则
 clean:

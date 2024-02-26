@@ -1,24 +1,59 @@
-#include <iostream>
-#include "block.h"
 #include "test.h"
+#include "table.h"
 
-using namespace std;
-
-void print_block(const block::BlockArr& arr) {
+void Test::print_block(const block::BlockArr& arr) {
+    std::cout << "╔═";
+    for(auto col : arr[0]) {
+        std::cout << "══";
+    }
+    std::cout << "═╗" << std::endl;
     for(auto row: arr) {
+        std::cout << "║ ";
         for(auto col: row) {
             if(col == 0) {
-                cout << "  ";
+                std::cout << "  ";
             } else {
-                cout << "██";
+                std::cout << "██";
             }
         }
-        cout << endl;
+        std::cout << " ║" << std::endl;
     }
-    cout << endl;
+    std::cout << "╚═";
+    for(auto col : arr[0]) {
+        std::cout << "══";
+    }
+    std::cout << "═╝" << std::endl;
 }
 
-int main() {
+void Test::print_map(const std::vector<std::vector<int>>& map) {
+    std::cout << "╔═";
+    for(auto col : map[0]) {
+        std::cout << "══";
+    }
+    std::cout << "═╗" << std::endl;
+    for(auto row: map) {
+        std::cout << "║ ";
+        for(auto col: row) {
+            if(col == 0) {
+                std::cout << "  ";
+            } else {
+                std::cout << "██";
+            }
+        }
+        std::cout << " ║" << std::endl;
+    }
+    std::cout << "╚═";
+    for(auto col : map[0]) {
+        std::cout << "══";
+    }
+    std::cout << "═╝" << std::endl;
+}
+
+Test::~Test() {
+    std::cout << GREEN << "All Tests Passed!" << std::endl;
+}
+
+void Test::block_test() {
     Block long_stick(BlockType::LONG_STICK, 0, 0);
     Block stick(BlockType::STICK, 0, 0);
     Block box(BlockType::BOX, 0, 0);
@@ -88,7 +123,9 @@ int main() {
     CHECK_EQUAL(long_stick.right(), 5);
     CHECK_EQUAL(long_stick.top(), 4);
 
-    cout << GREEN << "All Tests Passed!" << endl;
+    std::cout << GREEN << "block_test() Passed!" << RESET << std::endl;
+}
 
-    return 0;
+void Test::table_test() {
+
 }
