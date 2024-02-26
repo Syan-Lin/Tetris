@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "block.h"
+#include "table.h"
 
 #define RED "\x1b[0;31m"
 #define GREEN "\x1b[1;32m"
@@ -26,6 +27,6 @@ public:
     void block_test();
 
 private:
-    void print_map(const std::vector<std::vector<int>>& map);
+    void print_map(const Table::TableArr& map);
     void print_block(const block::BlockArr& arr);
 };

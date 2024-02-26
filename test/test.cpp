@@ -1,5 +1,4 @@
 #include "test.h"
-#include "table.h"
 
 void Test::print_block(const block::BlockArr& arr) {
     std::cout << "╔═";
@@ -25,7 +24,7 @@ void Test::print_block(const block::BlockArr& arr) {
     std::cout << "═╝" << std::endl;
 }
 
-void Test::print_map(const std::vector<std::vector<int>>& map) {
+void Test::print_map(const std::vector<std::vector<Color>>& map) {
     std::cout << "╔═";
     for(auto col : map[0]) {
         std::cout << "══";
@@ -34,7 +33,7 @@ void Test::print_map(const std::vector<std::vector<int>>& map) {
     for(auto row: map) {
         std::cout << "║ ";
         for(auto col: row) {
-            if(col == 0) {
+            if(col == Color::NONE) {
                 std::cout << "  ";
             } else {
                 std::cout << "██";
@@ -127,17 +126,17 @@ void Test::block_test() {
 }
 
 void Test::table_test() {
-    std::vector<std::vector<int>> map = {
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0},
-        {1, 1, 1, 1, 1},
-        {1, 0, 1, 1, 1},
+    Table::TableArr map = {
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+        {(Color)1, (Color)1, (Color)1, (Color)1, (Color)1},
+        {(Color)1, (Color)0, (Color)1, (Color)1, (Color)1},
     };
     Table table = Table(5 ,6, map);
     table.spawn(0, 0, BlockType::STAIR_LEFT);
