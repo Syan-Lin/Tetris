@@ -24,6 +24,15 @@ $(KEYBOARD): make_build_dir $(BUILD_DIR)/$(KEYBOARD).o
 	$(BUILD_DIR)/$(KEYBOARD); \
 	echo "Build $(KEYBOARD) done." \
 
+# 构建 block
+BLOCK = block
+$(BLOCK): make_build_dir $(BUILD_DIR)/$(BLOCK).o
+	@echo "Building $(BLOCK)..."; \
+	g++ $(CFLAG) -I$(INC_DIR) \
+	$(BUILD_DIR)/$(BLOCK).o $(TEST_DIR)/$(BLOCK).cpp -o \
+	$(BUILD_DIR)/$(BLOCK); \
+	echo "Build $(BLOCK) done." \
+
 # 编译规则
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@g++ $(CFLAG) -I$(INC_DIR) -c $< -o $@
