@@ -31,8 +31,9 @@ enum class TouchType {
 
 class Table {
     friend Test;
-    using TableArr = std::vector<std::vector<Color>>;
 public:
+    using TableArr = std::vector<std::vector<Color>>;
+
     Table(size_t width, size_t height);
     Table(size_t width, size_t height, TableArr map);
 
@@ -61,6 +62,12 @@ public:
 
     // 获取游戏棋盘的矩阵（包含方块）
     TableArr map();
+
+    // 获取游戏棋盘的宽度
+    size_t width();
+
+    // 获取游戏棋盘的高度
+    size_t height();
 
 private:
     // 水平方向移动方块

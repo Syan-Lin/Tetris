@@ -90,7 +90,14 @@ Table::TableArr Table::map() {
     if(block_ == nullptr) {
         return map_;
     }
-    TableArr copy = map_;
+    // 去掉 Spawn Area
+    TableArr copy = TableArr(height_, std::vector<Color>(width_));
+    for(int i = 0; i < height_; i++) {
+        for(int j = 0; j < width_; j++) {
+            copy.at(i).at(j) = map_.at(i + hidden_).at(j);
+        }
+    }
+
     size_t x = 0, y = 0;
     block::BlockArr arr = block_->arr();
     for(int i = block_->y(); i <= block_->bottom(); i++) { // 行
@@ -99,13 +106,21 @@ Table::TableArr Table::map() {
             if((i >= 0 && i < height_ + hidden_)
                         && (j >= 0 && j < width_)
                         && arr.at(y).at(x) == 1) {
-                copy.at(i).at(j) = block_->color();
+                copy.at(i - hidden_).at(j) = block_->color();
             }
             x++;
         }
         y++;
     }
     return copy;
+}
+
+size_t Table::width() {
+    return width_;
+}
+
+size_t Table::height() {
+    return height_;
 }
 
 void Table::move_block(int x) {
