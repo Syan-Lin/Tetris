@@ -15,12 +15,13 @@ enum class BlockType {
 };
 
 enum class Color {
-    RED,
-    GREEN,
-    YELLOW,
-    BLUE,
-    PURPLE,
-    CYAN
+    NONE    = 0,
+    RED     = 1,
+    GREEN   = 2,
+    YELLOW  = 3,
+    BLUE    = 4,
+    PURPLE  = 5,
+    CYAN    = 6
 };
 
 namespace block {
@@ -34,6 +35,7 @@ namespace block {
 class Block {
 public:
     Block(const BlockType type, const Color color, int x, int y);
+    Block(const BlockType type, int x, int y);
 
     // 顺时针旋转 90°
     void rotate();

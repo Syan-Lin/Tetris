@@ -31,7 +31,7 @@ enum class TouchType {
 
 class Table {
     friend Test;
-    using TableArr = std::vector<std::vector<int>>;
+    using TableArr = std::vector<std::vector<Color>>;
 public:
     Table(size_t width, size_t height);
     Table(size_t width, size_t height, TableArr map);

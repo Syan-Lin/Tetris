@@ -1,10 +1,11 @@
 #include "table.h"
 #include "block.h"
+#include <sched.h>
 
 Table::Table(size_t width, size_t height): width_(width), height_(height) {
     hidden_ = 4;
     removed_line_ = 0;
-    map_ = TableArr(height + hidden_, std::vector<int>(width, 0));
+    map_ = TableArr(height + hidden_, std::vector<Color>(width, Color::NONE));
 }
 
 Table::Table(size_t width, size_t height, TableArr map)
@@ -40,7 +41,7 @@ int Table::removed_lines() {
 void Table::reset_map() {
     for(size_t i = 0; i < map_.size(); i++) {
         for(size_t j = 0; j < map_.at(0).size(); j++) {
-            map_.at(i).at(j) = 0;
+            map_.at(i).at(j) = Color::NONE;
         }
     }
 }
@@ -48,7 +49,7 @@ void Table::reset_map() {
 bool Table::game_loss() {
     for(size_t i = 0; i < hidden_; i++) {
         for(size_t j = 0; j < width_; j++) {
-            if(map_.at(i).at(j) == 1) {
+            if(map_.at(i).at(j) != Color::NONE) {
                 return true;
             }
         }
@@ -98,7 +99,7 @@ Table::TableArr Table::map() {
             if((i >= 0 && i < height_ + hidden_)
                         && (j >= 0 && j < width_)
                         && arr.at(y).at(x) == 1) {
-                copy.at(i).at(j) = 1;
+                copy.at(i).at(j) = block_->color();
             }
             x++;
         }
@@ -143,7 +144,7 @@ TouchType Table::touch() {
         x = 0;
         for(int j = block_->x(); j <= block_->right(); j++) { // 列
             if((i > hidden_ - 1 && i < height_ + hidden_) && (j >= 0 && j < width_)) {
-                if(arr.at(y).at(x) == 1 && map_.at(i).at(j) == 1) {
+                if(arr.at(y).at(x) == 1 && map_.at(i).at(j) != Color::NONE) {
                     return TouchType::BOTTOM;
                 }
             }
@@ -160,7 +161,7 @@ int Table::remove_line() {
     for(size_t i = hidden_; i < height_ + hidden_; i++) {
         bool remove = true;
         for(size_t j = 0; j < width_; j++) {
-            if(map_.at(i).at(j) == 0) {
+            if(map_.at(i).at(j) == Color::NONE) {
                 remove = false;
                 break;
             }
@@ -174,7 +175,7 @@ int Table::remove_line() {
             }
             for(int row = hidden_; row >= 0; row--) {
                 for(size_t j = 0; j < width_; j++) {
-                    map_.at(row).at(j) = 0;
+                    map_.at(row).at(j) = Color::NONE;
                 }
             }
         }
