@@ -14,6 +14,15 @@ enum class BlockType {
     CORNER_RIGHT
 };
 
+enum class Color {
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    PURPLE,
+    CYAN
+};
+
 namespace block {
     using BlockArr = std::array<std::array<int, 4>, 4>;
 }
@@ -24,7 +33,7 @@ namespace block {
 //   v
 class Block {
 public:
-    Block(const BlockType type, int x, int y);
+    Block(const BlockType type, const Color color, int x, int y);
 
     // 顺时针旋转 90°
     void rotate();
@@ -44,10 +53,12 @@ public:
     int x();
     int y();
     block::BlockArr arr();
+    Color color();
 
 private:
     const BlockType type_;
     block::BlockArr block_;
+    const Color color_;
 
     // 左上角为坐标原点
     int x_;

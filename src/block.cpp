@@ -67,7 +67,8 @@ const BlockArr stair_right = {
 
 } // namespace block
 
-Block::Block(const BlockType type, int x, int y): type_(type), x_(x), y_(y) {
+Block::Block(const BlockType type, const Color color, int x, int y)
+                : type_(type), color_(color), x_(x), y_(y) {
     switch(type) {
         case BlockType::LONG_STICK:    block_ = block::long_stick;     break;
         case BlockType::STICK:         block_ = block::stick;          break;
@@ -154,4 +155,8 @@ int Block::y() {
 
 block::BlockArr Block::arr() {
     return block_;
+}
+
+Color Block::color() {
+    return color_;
 }
