@@ -1,6 +1,6 @@
-#include <cassert>
 #include <iostream>
 #include "block.h"
+#include "test.h"
 
 using namespace std;
 
@@ -39,54 +39,56 @@ int main() {
     print_block(corner_right.arr());
 
     // 单元测试
-    assert(long_stick.x() == 0);
-    assert(long_stick.y() == 0);
+    CHECK_EQUAL(long_stick.x(), 0);
+    CHECK_EQUAL(long_stick.y(), 0);
 
-    assert(long_stick.bottom() == 1);
-    assert(long_stick.left() == 0);
-    assert(long_stick.right() == 3);
-    assert(long_stick.top() == 1);
+    CHECK_EQUAL(long_stick.bottom(), 1);
+    CHECK_EQUAL(long_stick.left(), 0);
+    CHECK_EQUAL(long_stick.right(), 3);
+    CHECK_EQUAL(long_stick.top(), 1);
 
     long_stick.rotate();
 
-    assert(long_stick.x() == 0);
-    assert(long_stick.y() == 0);
+    CHECK_EQUAL(long_stick.x(), 0);
+    CHECK_EQUAL(long_stick.y(), 0);
 
-    assert(long_stick.bottom() == 3);
-    assert(long_stick.left() == 2);
-    assert(long_stick.right() == 2);
-    assert(long_stick.top() == 0);
+    CHECK_EQUAL(long_stick.bottom(), 3);
+    CHECK_EQUAL(long_stick.left(), 2);
+    CHECK_EQUAL(long_stick.right(), 2);
+    CHECK_EQUAL(long_stick.top(), 0);
 
     long_stick.move(2, 3);
 
-    assert(long_stick.x() == 2);
-    assert(long_stick.y() == 3);
+    CHECK_EQUAL(long_stick.x(), 2);
+    CHECK_EQUAL(long_stick.y(), 3);
 
-    assert(long_stick.bottom() == 6);
-    assert(long_stick.left() == 4);
-    assert(long_stick.right() == 4);
-    assert(long_stick.top() == 3);
-
-    long_stick.rotate();
-
-    assert(long_stick.bottom() == 5);
-    assert(long_stick.left() == 2);
-    assert(long_stick.right() == 5);
-    assert(long_stick.top() == 5);
+    CHECK_EQUAL(long_stick.bottom(), 6);
+    CHECK_EQUAL(long_stick.left(), 4);
+    CHECK_EQUAL(long_stick.right(), 4);
+    CHECK_EQUAL(long_stick.top(), 3);
 
     long_stick.rotate();
 
-    assert(long_stick.bottom() == 6);
-    assert(long_stick.left() == 3);
-    assert(long_stick.right() == 3);
-    assert(long_stick.top() == 3);
+    CHECK_EQUAL(long_stick.bottom(), 5);
+    CHECK_EQUAL(long_stick.left(), 2);
+    CHECK_EQUAL(long_stick.right(), 5);
+    CHECK_EQUAL(long_stick.top(), 5);
 
     long_stick.rotate();
 
-    assert(long_stick.bottom() == 4);
-    assert(long_stick.left() == 2);
-    assert(long_stick.right() == 5);
-    assert(long_stick.top() == 4);
+    CHECK_EQUAL(long_stick.bottom(), 6);
+    CHECK_EQUAL(long_stick.left(), 3);
+    CHECK_EQUAL(long_stick.right(), 3);
+    CHECK_EQUAL(long_stick.top(), 3);
+
+    long_stick.rotate();
+
+    CHECK_EQUAL(long_stick.bottom(), 4);
+    CHECK_EQUAL(long_stick.left(), 2);
+    CHECK_EQUAL(long_stick.right(), 5);
+    CHECK_EQUAL(long_stick.top(), 4);
+
+    cout << GREEN << "All Tests Passed!" << endl;
 
     return 0;
 }
