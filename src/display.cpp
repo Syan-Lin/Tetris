@@ -113,6 +113,7 @@ void Display::difficulty(int select) {
     print_tail(menu_width_);
 }
 
+// TODO: 拆分，解决终端渲染闪烁问题
 void Display::game_panel(
         Table& table,
         int score,
@@ -138,6 +139,8 @@ void Display::game_table(Table& table) {
         for(int j = 0; j < width; j++) {
             if(map[i][j] == Color::NONE) {
                 std::cout << "  ";
+            } else if((int)map[i][j] > 6){
+                std::cout << with_color("▫️▫️", (Color)((int)map[i][j] - 6));
             } else {
                 std::cout << with_color("██", map[i][j]);
             }

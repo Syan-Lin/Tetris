@@ -55,7 +55,7 @@ public:
     // 旋转方块
     void rotate();
 
-    // 获取游戏棋盘的矩阵（包含方块）
+    // 获取游戏棋盘的矩阵（包含方块和下落位置）
     TableArr map();
 
     // 获取游戏棋盘的宽度
@@ -75,7 +75,7 @@ private:
     void set_block();
 
     // 检查是否碰到边界或其他方块, 返回碰撞类型
-    TouchType touch();
+    TouchType touch(Block block);
 
     // 消去满足要求的行, 返回消除的行数
     int remove_line();

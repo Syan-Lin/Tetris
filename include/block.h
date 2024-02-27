@@ -15,13 +15,19 @@ enum class BlockType {
 };
 
 enum class Color {
-    NONE    = 0,
-    RED     = 1,
-    GREEN   = 2,
-    YELLOW  = 3,
-    BLUE    = 4,
-    PURPLE  = 5,
-    CYAN    = 6
+    NONE     = 0,
+    RED      = 1,
+    GREEN    = 2,
+    YELLOW   = 3,
+    BLUE     = 4,
+    PURPLE   = 5,
+    CYAN     = 6,
+    RED_S    = 7,
+    GREEN_S  = 8,
+    YELLOW_S = 9,
+    BLUE_S   = 10,
+    PURPLE_S = 11,
+    CYAN_S   = 12
 };
 
 namespace block {

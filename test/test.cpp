@@ -35,8 +35,10 @@ void Test::print_map(const std::vector<std::vector<Color>>& map) {
         for(auto col: row) {
             if(col == Color::NONE) {
                 std::cout << "  ";
-            } else {
+            } else if((int)col <= 6){
                 std::cout << "██";
+            } else {
+                std::cout << "▫️▫️";
             }
         }
         std::cout << " ║" << std::endl;
@@ -48,8 +50,17 @@ void Test::print_map(const std::vector<std::vector<Color>>& map) {
     std::cout << "═╝" << std::endl;
 }
 
+void print(const std::vector<std::vector<Color>>& map) {
+    for(auto row: map) {
+        for(auto col: row) {
+            std::cout << int(col) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 Test::~Test() {
-    std::cout << GREEN << "All Tests Passed!" << std::endl;
+    std::cout << ANSI_GREEN << "All Tests Passed!" << std::endl;
 }
 
 void Test::block_test() {
@@ -122,7 +133,7 @@ void Test::block_test() {
     CHECK_EQUAL(long_stick.right(), 5);
     CHECK_EQUAL(long_stick.top(), 4);
 
-    std::cout << GREEN << "block_test() Passed!" << RESET << std::endl;
+    std::cout << ANSI_GREEN << "block_test() Passed!" << RESET << std::endl;
 }
 
 void Test::table_test() {
@@ -131,6 +142,7 @@ void Test::table_test() {
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
+
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
         {(Color)0, (Color)0, (Color)0, (Color)0, (Color)0},
@@ -140,23 +152,23 @@ void Test::table_test() {
     };
     Table table = Table(5 ,6, map);
     table.spawn(Block(BlockType::STAIR_LEFT, 0, 0));
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::NONE);
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::NONE);
     print_map(table.map());
 
-    table.spawn(Block(BlockType::STAIR_LEFT, -1, 0));
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::BORDER);
+    table.spawn(Block(BlockType::STAIR_RIGHT, -1, 0));
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::BORDER);
     print_map(table.map());
 
-    table.spawn(Block(BlockType::STAIR_LEFT, 1, 5));
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::NONE);
+    table.spawn(Block(BlockType::STICK, 1, 5));
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::NONE);
     print_map(table.map());
 
-    table.spawn(Block(BlockType::STAIR_LEFT, 1, 6));
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::BOTTOM);
+    table.spawn(Block(BlockType::LONG_STICK, 1, 6));
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::NONE);
     print_map(table.map());
 
-    table.spawn(Block(BlockType::STAIR_LEFT, 1, 10));
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::BOTTOM);
+    table.spawn(Block(BlockType::STAIR, 1, 10));
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::BOTTOM);
     print_map(table.map());
 
     table.remove_line();
@@ -194,18 +206,17 @@ void Test::table_test() {
     print_map(table.map());
 
     print_map(table.map());
-    table.spawn(Block(BlockType::STAIR_LEFT, 0, 6));
+    table.spawn(Block(BlockType::CORNER_LEFT, 0, 6));
     print_map(table.map());
     table.rotate();
     print_map(table.map());
     CHECK_EQUAL(table.update(Input::RIGHT), false);
-    CHECK_EQUAL((int)table.touch(), (int)TouchType::NONE);
-    CHECK_EQUAL(table.update(Input::DOWN), false);
+    CHECK_EQUAL((int)table.touch(table.block_), (int)TouchType::NONE);
     CHECK_EQUAL(table.update(Input::DOWN), true);
     table.remove_line();
     print_map(table.map());
 
-    table.spawn(Block(BlockType::STAIR_LEFT, 0, 3));
+    table.spawn(Block(BlockType::CORNER_RIGHT, 0, 3));
     table.set_block();
     print_map(table.map());
     CHECK_EQUAL(table.game_loss(), false);

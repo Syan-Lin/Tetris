@@ -68,7 +68,7 @@ bool Table::update(Input input) {
 void Table::rotate() {
     block_.rotate();
     // 如果有碰撞，则再旋转三次还原
-    if(touch() != TouchType::NONE) {
+    if(touch(block_) != TouchType::NONE) {
         block_.rotate();
         block_.rotate();
         block_.rotate();
@@ -84,8 +84,33 @@ Table::TableArr Table::map() {
         }
     }
 
+    // Block 下落位置
+    Block shadow_block = block_;
+    for(int i = 0; i < map_.size(); i++) {
+        shadow_block.move(0, 1);
+        if(touch(shadow_block) != TouchType::NONE) {
+            shadow_block.move(0, -1);
+            break;
+        }
+    }
+    block::BlockArr arr_s = shadow_block.arr();
     size_t x = 0, y = 0;
+    for(int i = shadow_block.y(); i <= shadow_block.bottom(); i++) { // 行
+        x = 0;
+        for(int j = shadow_block.x(); j <= shadow_block.right(); j++) { // 列
+            if((i >= hidden_ && i < height_ + hidden_)
+                        && (j >= 0 && j < width_)
+                        && arr_s.at(y).at(x) == 1) {
+                copy.at(i - hidden_).at(j) = (Color)((int)shadow_block.color() + 6);
+            }
+            x++;
+        }
+        y++;
+    }
+
+    // Block 位置
     block::BlockArr arr = block_.arr();
+    y = 0;
     for(int i = block_.y(); i <= block_.bottom(); i++) { // 行
         x = 0;
         for(int j = block_.x(); j <= block_.right(); j++) { // 列
@@ -98,6 +123,7 @@ Table::TableArr Table::map() {
         }
         y++;
     }
+
     return copy;
 }
 
@@ -130,14 +156,14 @@ size_t Table::height() {
 
 void Table::move_block(int x) {
     block_.move(x, 0);
-    if(touch() != TouchType::NONE) {
+    if(touch(block_) != TouchType::NONE) {
         block_.move(-x, 0);
     }
 }
 
 bool Table::gravity() {
     block_.move(0, 1);
-    if(touch() == TouchType::BOTTOM) {
+    if(touch(block_) == TouchType::BOTTOM) {
         block_.move(0, -1);
         set_block();
         return true;
@@ -150,19 +176,19 @@ void Table::set_block() {
     removed_line_ = remove_line();
 }
 
-TouchType Table::touch() {
+TouchType Table::touch(Block block) {
     // 检查边界
-    if(block_.left() < 0 || block_.right() > width_ - 1) {
+    if(block.left() < 0 || block.right() > width_ - 1) {
         return TouchType::BORDER;
-    } else if(block_.bottom() >= height_ + hidden_) {
+    } else if(block.bottom() >= height_ + hidden_) {
         return TouchType::BOTTOM;
     }
     // 检查其他方块
     size_t x = 0, y = 0;
-    block::BlockArr arr = block_.arr();
-    for(int i = block_.y(); i <= block_.bottom(); i++) { // 行
+    block::BlockArr arr = block.arr();
+    for(int i = block.y(); i <= block.bottom(); i++) { // 行
         x = 0;
-        for(int j = block_.x(); j <= block_.right(); j++) { // 列
+        for(int j = block.x(); j <= block.right(); j++) { // 列
             if((i > hidden_ - 1 && i < height_ + hidden_) && (j >= 0 && j < width_)) {
                 if(arr.at(y).at(x) == 1 && map_.at(i).at(j) != Color::NONE) {
                     return TouchType::BOTTOM;

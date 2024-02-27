@@ -45,11 +45,11 @@ int main() {
     display.pause_panel(table.width(), table.height());
 
     cin >> s;
-    display.game_over_panel(table.width(), table.height(), 0);
+    display.game_over_panel(table.width(), table.height(), 1);
 
     cin >> s;
     display.clear();
-    display.main_menu(0);
+    display.main_menu(1);
 
     cin >> s;
     display.clear();
