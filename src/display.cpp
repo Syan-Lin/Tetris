@@ -1,6 +1,6 @@
 #include "display.h"
 #include "block.h"
-#include "controler.h"
+#include "controller.h"
 #include <string>
 
 #define ANSI_RED "\x1b[31m"
@@ -82,12 +82,12 @@ void Display::main_menu(int select) {
     move_cursor(1, 1);
     print_head(menu_width_, with_color("✨ 俄罗斯方块 ✨", Color::GREEN), 16);
     print_middle(menu_width_, "", 0);
-    if(select == 0) {
+    if(select == 2) {
         print_middle(menu_width_, with_color("1. 开始游戏", Color::GREEN), 11);
-        print_middle(menu_width_, with_color("0. 退出游戏", Color::RED), 11);
+        print_middle(menu_width_, with_color("2. 退出游戏", Color::RED), 11);
     } else {
         print_middle(menu_width_, with_color("1. 开始游戏", Color::RED), 11);
-        print_middle(menu_width_, with_color("0. 退出游戏", Color::GREEN), 11);
+        print_middle(menu_width_, with_color("2. 退出游戏", Color::GREEN), 11);
     }
     print_middle(menu_width_, "", 0);
     std::cout << "╚═════════════════════════v0.1═╝" << std::endl;
@@ -117,17 +117,12 @@ void Display::game_panel(
         Table& table,
         int score,
         Difficulty difficulty,
-        Block block,
-        bool game_over,
-        int select) {
+        Block block) {
     game_table(table);
-    score_panel(table, score);
-    difficulty_panel(table, difficulty);
-    next_panel(table, block);
-    operation_panel(table);
-    if(game_over) {
-        game_over_panel(table, select);
-    }
+    score_panel(table.width(), score);
+    difficulty_panel(table.width(), difficulty);
+    next_panel(table.width(), block);
+    operation_panel(table.width());
 }
 
 void Display::game_table(Table& table) {
@@ -153,9 +148,7 @@ void Display::game_table(Table& table) {
     print_tail(width * 2);
 }
 
-void Display::score_panel(Table& table, int score) {
-    int width = table.width();
-
+void Display::score_panel(int width, int score) {
     move_cursor(1, (width + 3) * 2);
     print_head(panel_width_, "得分", 4);
 
@@ -167,9 +160,8 @@ void Display::score_panel(Table& table, int score) {
     print_tail(panel_width_);
 }
 
-void Display::difficulty_panel(Table& table, Difficulty difficulty) {
+void Display::difficulty_panel(int width, Difficulty difficulty) {
     using std::string, std::cout;
-    int width = table.width();
     string str;
     switch(difficulty) {
         case Difficulty::EASY:
@@ -196,9 +188,7 @@ void Display::difficulty_panel(Table& table, Difficulty difficulty) {
     print_tail(panel_width_);
 }
 
-void Display::next_panel(Table& table, Block block) {
-    int width = table.width();
-    int height = table.height();
+void Display::next_panel(int width, Block block) {
     auto arr = block.arr();
 
     move_cursor(9, (width + 3) * 2);
@@ -220,8 +210,7 @@ void Display::next_panel(Table& table, Block block) {
     print_tail(panel_width_);
 }
 
-void Display::operation_panel(Table& table) {
-    int width = table.width();
+void Display::operation_panel(int width) {
     move_cursor(16, (width + 3) * 2);
     print_head(panel_width_, "操作", 4);
 
@@ -244,9 +233,7 @@ void Display::operation_panel(Table& table) {
     print_tail(panel_width_);
 }
 
-void Display::game_over_panel(Table& table, int select) {
-    int width = table.width();
-    int height = table.height();
+void Display::game_over_panel(int width, int height, int select) {
     int line = height / 2 - 1;
     int column = width - window_width_ / 2 + 1;
 
@@ -254,17 +241,32 @@ void Display::game_over_panel(Table& table, int select) {
     print_head(window_width_, "游戏结束", 8);
 
     move_cursor(line + 1, column);
-    print_middle(window_width_, (select == 0
+    print_middle(window_width_, (select == 1
                                 ? with_color("重新开始", Color::RED)
                                 : with_color("重新开始", Color::GREEN)), 8);
 
     move_cursor(line + 2, column);
-    print_middle(window_width_, (select == 1
+    print_middle(window_width_, (select == 2
                                 ? with_color("返回菜单", Color::RED)
                                 : with_color("返回菜单", Color::GREEN)), 8);
 
     move_cursor(line + 3, column);
     print_tail(window_width_);
+}
+
+void Display::pause_panel(int width, int height) {
+    int pause_panel_width = 10;
+    int line = height / 2 - 1;
+    int column = width - pause_panel_width / 2 + 1;
+
+    move_cursor(line, column);
+    print_head(pause_panel_width, "", 0);
+
+    move_cursor(line + 1, column);
+    print_middle(pause_panel_width, with_color("游戏暂停", Color::RED), 8);
+
+    move_cursor(line + 2, column);
+    print_tail(pause_panel_width);
 }
 
 std::string Display::with_color(std::string str, Color color) {

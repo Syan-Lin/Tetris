@@ -1,6 +1,8 @@
 #pragma once
 #include "table.h"
-#include "controler.h"
+
+// 与 controller.h 循环引用，需要前向声明
+enum class Difficulty;
 
 class Display {
 public:
@@ -17,28 +19,29 @@ public:
         Table& table,
         int score,
         Difficulty difficulty,
-        Block block,
-        bool game_over,
-        int select);
+        Block block);
+
+    // 游戏结束界面
+    void game_over_panel(int width, int height, int select);
+
+    // 游戏暂停界面
+    void pause_panel(int width, int height);
 
     // 清空屏幕
     void clear();
 
 private:
     // 打印分数信息
-    void score_panel(Table& table, int score);
+    void score_panel(int width, int score);
 
     // 打印难度信息
-    void difficulty_panel(Table& table, Difficulty difficulty);
+    void difficulty_panel(int width, Difficulty difficulty);
 
     // 打印下一个方块信息
-    void next_panel(Table& table, Block block);
-
-    // 游戏结束界面
-    void game_over_panel(Table& table, int select);
+    void next_panel(int width, Block block);
 
     // 打印操作信息
-    void operation_panel(Table& table);
+    void operation_panel(int width);
 
     // 绘制游戏棋盘
     void game_table(Table& table);

@@ -1,7 +1,7 @@
 #include "display.h"
 #include "block.h"
-#include "controler.h"
 #include "table.h"
+#include "controller.h"
 
 using namespace std;
 
@@ -39,14 +39,18 @@ int main() {
     Table table = Table(10, 20, map);
     Block block = Block(BlockType::STAIR_LEFT, Color::BLUE, 0, 4);
     table.spawn(block);
-    display.game_panel(table, 123, Difficulty::EASY, block, true, 1);
+    display.game_panel(table, 123, Difficulty::EASY, block);
 
-    cout << "输入任意键到下一个 UI" << endl;
+    cin >> s;
+    display.pause_panel(table.width(), table.height());
+
+    cin >> s;
+    display.game_over_panel(table.width(), table.height(), 0);
+
     cin >> s;
     display.clear();
     display.main_menu(0);
 
-    cout << "输入任意键到下一个 UI" << endl;
     cin >> s;
     display.clear();
     display.difficulty(4);
