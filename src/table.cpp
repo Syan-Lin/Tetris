@@ -17,19 +17,8 @@ Table::Table(size_t width, size_t height, TableArr map)
     }
 }
 
-void Table::spawn() {
-    int x = rand() % 9; // 生成 [0, 8] 的随机数
-    BlockType type = static_cast<BlockType>(rand() % 8);
-    block_ = new Block(type, x, 0);
-}
-
-void Table::spawn(int x, int y, BlockType type) {
-    block_ = new Block(type, x, y);
-}
-
-void Table::destroy_block() {
-    delete block_;
-    block_ = nullptr;
+void Table::spawn(Block& block) {
+    block_ = &block;
 }
 
 int Table::removed_lines() {

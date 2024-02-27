@@ -37,13 +37,8 @@ public:
     Table(size_t width, size_t height);
     Table(size_t width, size_t height, TableArr map);
 
-    // 在 Spawn Area 随机生成一个方块
-    void spawn();
-    // 在指定位置放置方块
-    void spawn(int x, int y, BlockType type);
-
-    // 释放方块资源
-    void destroy_block();
+    // 生成一个方块
+    void spawn(Block& block);
 
     // 获取消除的行数
     int removed_lines();
