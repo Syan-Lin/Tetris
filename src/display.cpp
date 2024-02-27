@@ -127,7 +127,7 @@ void Display::game_table(Table& table) {
             if(map[i][j] == Color::NONE) {
                 std::cout << "  ";
             } else if((int)map[i][j] > 6){
-                std::cout << with_color("▫️▫️", (Color)((int)map[i][j] - 6));
+                std::cout << with_color("[]", (Color)((int)map[i][j] - 6));
             } else {
                 std::cout << with_color("██", map[i][j]);
             }
