@@ -25,6 +25,15 @@ $(KEYBOARD): make_build_dir $(BUILD_DIR)/$(KEYBOARD).o
 	$(BUILD_DIR)/$(KEYBOARD); \
 	echo "Build $(KEYBOARD) done." \
 
+# 构建 display
+DISPLAY = display
+$(DISPLAY): make_build_dir $(BUILD_DIR)/$(DISPLAY).o $(OBJS)
+	@echo "Building $(DISPLAY)..."; \
+	g++ $(CFLAG) $(INCLUDE) \
+	$(OBJS) $(TEST_DIR)/$(DISPLAY).cpp -o \
+	$(BUILD_DIR)/$(DISPLAY); \
+	echo "Build $(DISPLAY) done." \
+
 # 构建测试
 TEST = test
 $(TEST): make_build_dir $(BUILD_DIR)/$(TEST).o $(OBJS)
