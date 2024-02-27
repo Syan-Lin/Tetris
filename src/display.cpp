@@ -90,7 +90,7 @@ void Display::main_menu(int select) {
         print_middle(menu_width_, with_color("2. 退出游戏", Color::GREEN), 11);
     }
     print_middle(menu_width_, "", 0);
-    std::cout << "╚═════════════════════════v0.1═╝" << std::endl;
+    std::cout << "╚═════════════════════════v0.2═╝" << std::endl;
 }
 
 void Display::difficulty(int select) {
@@ -111,19 +111,6 @@ void Display::difficulty(int select) {
                                     : with_color("4. 地 狱", Color::GREEN)), 8);
     print_middle(menu_width_, "", 0);
     print_tail(menu_width_);
-}
-
-// TODO: 拆分，解决终端渲染闪烁问题
-void Display::game_panel(
-        Table& table,
-        int score,
-        Difficulty difficulty,
-        Block block) {
-    game_table(table);
-    score_panel(table.width(), score);
-    difficulty_panel(table.width(), difficulty);
-    next_panel(table.width(), block);
-    operation_panel(table.width());
 }
 
 void Display::game_table(Table& table) {

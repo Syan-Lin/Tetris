@@ -1,5 +1,5 @@
 # Tetris
-![](https://img.shields.io/badge/c++-17-blue) ![](https://img.shields.io/badge/release-v0.1-blue) ![](https://img.shields.io/badge/license-mit-blue)
+![](https://img.shields.io/badge/c++-17-blue) ![](https://img.shields.io/badge/release-v0.2-blue) ![](https://img.shields.io/badge/license-mit-blue)
 
 ## 介绍
 现代 C++ 实现的 Windows 和 Linux 终端俄罗斯方块，有丰富的 UI 界面。采用了面向对象的思想，将游戏主要分为四块：数据结构（`block` 和 `table`）、输入（`keyboard`）、输出（`display`）、游戏逻辑（`controller`），每一块都有各自的测试代码，容易 Debug 和修改。

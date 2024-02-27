@@ -39,7 +39,11 @@ int main() {
     Table table = Table(10, 20, map);
     Block block = Block(BlockType::STAIR_LEFT, Color::BLUE, 0, 4);
     table.spawn(block);
-    display.game_panel(table, 123, Difficulty::EASY, block);
+    display.game_table(table);
+    display.score_panel(table.width(), 123);
+    display.difficulty_panel(table.width(), Difficulty::EASY);
+    display.next_panel(table.width(), block);
+    display.operation_panel(table.width());
 
     cin >> s;
     display.pause_panel(table.width(), table.height());

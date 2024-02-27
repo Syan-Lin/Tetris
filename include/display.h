@@ -14,23 +14,6 @@ public:
     // 绘制难度选择界面
     void difficulty(int select);
 
-    // 绘制游戏界面
-    void game_panel(
-        Table& table,
-        int score,
-        Difficulty difficulty,
-        Block block);
-
-    // 游戏结束界面
-    void game_over_panel(int width, int height, int select);
-
-    // 游戏暂停界面
-    void pause_panel(int width, int height);
-
-    // 清空屏幕
-    void clear();
-
-private:
     // 打印分数信息
     void score_panel(int width, int score);
 
@@ -45,6 +28,17 @@ private:
 
     // 绘制游戏棋盘
     void game_table(Table& table);
+
+    // 游戏结束界面
+    void game_over_panel(int width, int height, int select);
+
+    // 游戏暂停界面
+    void pause_panel(int width, int height);
+
+    // 清空屏幕
+    void clear();
+
+private:
 
     // 颜色打印
     std::string with_color(std::string, Color color);

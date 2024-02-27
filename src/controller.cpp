@@ -109,6 +109,12 @@ void Controller::game_start() {
     table_.spawn(generate_block());
     Block block = generate_block();
     int frame_per_milliseconds = 1000 / fps_;
+    screen_.clear();
+    screen_.game_table(table_);
+    screen_.score_panel(table_.width(), scores_);
+    screen_.difficulty_panel(table_.width(), difficulty_);
+    screen_.next_panel(table_.width(), block);
+    screen_.operation_panel(table_.width());
 
     auto game_func = [&, this](Input in) -> bool {
         if(game_over_) {
@@ -118,8 +124,7 @@ void Controller::game_start() {
             pause_ = !pause_;
         }
         if(!pause_) {
-            screen_.clear();
-            screen_.game_panel(table_, scores_, difficulty_, block);
+            screen_.game_table(table_);
             move_block(in, block);
 
             // 自动下降
@@ -178,10 +183,12 @@ void Controller::move_block(Input in, Block& block) {
         } else {
             table_.spawn(block);
             block = generate_block();
+            screen_.next_panel(table_.width(), block);
         }
         int lines = table_.removed_lines();
         if(lines > 0) {
             scores_ += 100 * pow(lines, 2);
+            screen_.score_panel(table_.width(), scores_);
         }
     }
 }
