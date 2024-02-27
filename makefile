@@ -16,6 +16,15 @@ make_build_dir:
         mkdir -p $(BUILD_DIR); \
     fi
 
+# 构建主程序
+MAIN = main
+$(MAIN): make_build_dir $(OBJS)
+	@echo "Building $(MAIN)..."; \
+	g++ $(CFLAG) $(INCLUDE) \
+	$(OBJS) $(MAIN).cpp -o \
+	$(MAIN); \
+	echo "Build $(MAIN) done." \
+
 # 构建 keyboard
 KEYBOARD = keyboard
 $(KEYBOARD): make_build_dir $(BUILD_DIR)/$(KEYBOARD).o
@@ -52,4 +61,5 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # 清理规则
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR) \
+	rm $(MAIN)
