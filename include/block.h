@@ -34,6 +34,7 @@ namespace block {
 //   v
 class Block {
 public:
+    Block();
     Block(const BlockType type, const Color color, int x, int y);
     Block(const BlockType type, int x, int y);
 
@@ -58,9 +59,9 @@ public:
     Color color();
 
 private:
-    const BlockType type_;
+    BlockType type_;
     block::BlockArr block_;
-    const Color color_;
+    Color color_;
 
     // 左上角为坐标原点
     int x_;

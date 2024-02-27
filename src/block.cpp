@@ -97,6 +97,8 @@ Block::Block(const BlockType type, int x, int y)
     }
 }
 
+Block::Block() : Block(BlockType::BOX, 0, 0) {}
+
 void Block::rotate() {
     block::BlockArr after_rotate;
     for(size_t i = 0; i < block_.size(); i++) {

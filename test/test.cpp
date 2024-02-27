@@ -139,35 +139,30 @@ void Test::table_test() {
         {(Color)1, (Color)0, (Color)1, (Color)1, (Color)1},
     };
     Table table = Table(5 ,6, map);
-    table.spawn(0, 0, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 0, 0));
     CHECK_EQUAL((int)table.touch(), (int)TouchType::NONE);
     print_map(table.map());
-    table.destroy_block();
 
-    table.spawn(-1, 0, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, -1, 0));
     CHECK_EQUAL((int)table.touch(), (int)TouchType::BORDER);
     print_map(table.map());
-    table.destroy_block();
 
-    table.spawn(1, 5, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 1, 5));
     CHECK_EQUAL((int)table.touch(), (int)TouchType::NONE);
     print_map(table.map());
-    table.destroy_block();
 
-    table.spawn(1, 6, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 1, 6));
     CHECK_EQUAL((int)table.touch(), (int)TouchType::BOTTOM);
     print_map(table.map());
-    table.destroy_block();
 
-    table.spawn(1, 10, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 1, 10));
     CHECK_EQUAL((int)table.touch(), (int)TouchType::BOTTOM);
     print_map(table.map());
-    table.destroy_block();
 
     table.remove_line();
     print_map(table.map());
 
-    table.spawn(1, 1, BlockType::BOX);
+    table.spawn(Block(BlockType::BOX, 1, 1));
     print_map(table.map());
     CHECK_EQUAL(table.update(Input::LEFT), false);
     print_map(table.map());
@@ -198,9 +193,8 @@ void Test::table_test() {
     CHECK_EQUAL(table.update(Input::DOWN), true);
     print_map(table.map());
 
-    table.destroy_block();
     print_map(table.map());
-    table.spawn(0, 6, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 0, 6));
     print_map(table.map());
     table.rotate();
     print_map(table.map());
@@ -209,14 +203,13 @@ void Test::table_test() {
     CHECK_EQUAL(table.update(Input::DOWN), false);
     CHECK_EQUAL(table.update(Input::DOWN), true);
     table.remove_line();
-    table.destroy_block();
     print_map(table.map());
 
-    table.spawn(0, 3, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 0, 3));
     table.set_block();
     print_map(table.map());
     CHECK_EQUAL(table.game_loss(), false);
-    table.spawn(0, 2, BlockType::STAIR_LEFT);
+    table.spawn(Block(BlockType::STAIR_LEFT, 0, 2));
     table.set_block();
     print_map(table.map());
     CHECK_EQUAL(table.game_loss(), true);

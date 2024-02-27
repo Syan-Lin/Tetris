@@ -17,8 +17,8 @@ Table::Table(size_t width, size_t height, TableArr map)
     }
 }
 
-void Table::spawn(Block& block) {
-    block_ = &block;
+void Table::spawn(Block block) {
+    block_ = block;
 }
 
 int Table::removed_lines() {
@@ -66,19 +66,16 @@ bool Table::update(Input input) {
 }
 
 void Table::rotate() {
-    block_->rotate();
+    block_.rotate();
     // 如果有碰撞，则再旋转三次还原
     if(touch() != TouchType::NONE) {
-        block_->rotate();
-        block_->rotate();
-        block_->rotate();
+        block_.rotate();
+        block_.rotate();
+        block_.rotate();
     }
 }
 
 Table::TableArr Table::map() {
-    if(block_ == nullptr) {
-        return map_;
-    }
     // 去掉 Spawn Area
     TableArr copy = TableArr(height_, std::vector<Color>(width_));
     for(int i = 0; i < height_; i++) {
@@ -88,14 +85,33 @@ Table::TableArr Table::map() {
     }
 
     size_t x = 0, y = 0;
-    block::BlockArr arr = block_->arr();
-    for(int i = block_->y(); i <= block_->bottom(); i++) { // 行
+    block::BlockArr arr = block_.arr();
+    for(int i = block_.y(); i <= block_.bottom(); i++) { // 行
         x = 0;
-        for(int j = block_->x(); j <= block_->right(); j++) { // 列
+        for(int j = block_.x(); j <= block_.right(); j++) { // 列
+            if((i >= hidden_ && i < height_ + hidden_)
+                        && (j >= 0 && j < width_)
+                        && arr.at(y).at(x) == 1) {
+                copy.at(i - hidden_).at(j) = block_.color();
+            }
+            x++;
+        }
+        y++;
+    }
+    return copy;
+}
+
+Table::TableArr Table::map_for_check() {
+    TableArr copy = map_;
+    size_t x = 0, y = 0;
+    block::BlockArr arr = block_.arr();
+    for(int i = block_.y(); i <= block_.bottom(); i++) { // 行
+        x = 0;
+        for(int j = block_.x(); j <= block_.right(); j++) { // 列
             if((i >= 0 && i < height_ + hidden_)
                         && (j >= 0 && j < width_)
                         && arr.at(y).at(x) == 1) {
-                copy.at(i - hidden_).at(j) = block_->color();
+                copy.at(i).at(j) = block_.color();
             }
             x++;
         }
@@ -113,16 +129,16 @@ size_t Table::height() {
 }
 
 void Table::move_block(int x) {
-    block_->move(x, 0);
+    block_.move(x, 0);
     if(touch() != TouchType::NONE) {
-        block_->move(-x, 0);
+        block_.move(-x, 0);
     }
 }
 
 bool Table::gravity() {
-    block_->move(0, 1);
+    block_.move(0, 1);
     if(touch() == TouchType::BOTTOM) {
-        block_->move(0, -1);
+        block_.move(0, -1);
         set_block();
         return true;
     }
@@ -130,23 +146,23 @@ bool Table::gravity() {
 }
 
 void Table::set_block() {
-    map_ = map();
+    map_ = map_for_check();
     removed_line_ = remove_line();
 }
 
 TouchType Table::touch() {
     // 检查边界
-    if(block_->left() < 0 || block_->right() > width_ - 1) {
+    if(block_.left() < 0 || block_.right() > width_ - 1) {
         return TouchType::BORDER;
-    } else if(block_->bottom() >= height_ + hidden_) {
+    } else if(block_.bottom() >= height_ + hidden_) {
         return TouchType::BOTTOM;
     }
     // 检查其他方块
     size_t x = 0, y = 0;
-    block::BlockArr arr = block_->arr();
-    for(int i = block_->y(); i <= block_->bottom(); i++) { // 行
+    block::BlockArr arr = block_.arr();
+    for(int i = block_.y(); i <= block_.bottom(); i++) { // 行
         x = 0;
-        for(int j = block_->x(); j <= block_->right(); j++) { // 列
+        for(int j = block_.x(); j <= block_.right(); j++) { // 列
             if((i > hidden_ - 1 && i < height_ + hidden_) && (j >= 0 && j < width_)) {
                 if(arr.at(y).at(x) == 1 && map_.at(i).at(j) != Color::NONE) {
                     return TouchType::BOTTOM;

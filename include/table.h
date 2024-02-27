@@ -38,7 +38,7 @@ public:
     Table(size_t width, size_t height, TableArr map);
 
     // 生成一个方块
-    void spawn(Block& block);
+    void spawn(Block block);
 
     // 获取消除的行数
     int removed_lines();
@@ -80,11 +80,13 @@ private:
     // 消去满足要求的行, 返回消除的行数
     int remove_line();
 
+    TableArr map_for_check();
+
 private:
     size_t width_;
     size_t height_;
     size_t hidden_;
     size_t removed_line_;
     TableArr map_;
-    Block* block_;
+    Block block_;
 };
