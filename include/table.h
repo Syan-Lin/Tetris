@@ -80,6 +80,7 @@ private:
     // 消去满足要求的行, 返回消除的行数
     int remove_line();
 
+    // 获取游戏棋盘的矩阵（包含方块和 Spawn Area）
     TableArr map_for_check();
 
 private:
