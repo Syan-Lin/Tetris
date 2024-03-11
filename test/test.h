@@ -14,7 +14,7 @@ void check_equal(int line, std::string str1, std::string str2, value val1, value
     if(val1 != val2) {
         std::cerr << ANSI_RED << "expected " << ANSI_BLUE << str1 << ANSI_RED << " to be " << ANSI_GREEN << val1
             << ANSI_RED << " but get " << ANSI_BLUE << val2 << ANSI_RED << " at line " << line << RESET << std::endl;
-        throw;
+        std::terminate();
     }
 }
 
